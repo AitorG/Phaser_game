@@ -1,9 +1,15 @@
-export default class Snake extends Phaser.GameObjects.Image {
+export default class Snake extends Phaser.GameObjects.Group {
   constructor(scene, x, y, texture) {
-    super(scene, x, y, texture)
+    super(scene)
+    const image = this.scene.add.image(x, y, texture)
+    const image2 = this.scene.add.image(x - 25, y, texture)
+    this.add(image)
+    this.add(image2)
     this.scene.add.existing(this)
     this.direction = 3 // 1 Arriba 2 Derecha 3 Abajo 4 Izquierda
     this.velocity = 1.4
+    this.x = x
+    this.y = y
   }
 
   setDirection(direction) {
@@ -13,6 +19,15 @@ export default class Snake extends Phaser.GameObjects.Image {
         this.direction = direction
       }
     }
+  }
+
+  move() {
+    let childs = 0
+    this.children.each((snake) => {
+      snake.x = this.x + (25 * childs)
+      snake.y = this.y
+      childs++
+    })
   }
   
   preUpdate() {
@@ -30,5 +45,6 @@ export default class Snake extends Phaser.GameObjects.Image {
         if (this.x >= 12.5) this.x -= this.velocity
         break
     }
+    this.move()
   }
 }
