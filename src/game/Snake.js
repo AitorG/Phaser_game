@@ -1,15 +1,24 @@
+
 export default class Snake extends Phaser.GameObjects.Group {
-  constructor(scene, x, y, texture) {
+  constructor(scene, coordX, coordY, texture) {
     super(scene)
-    const image = this.scene.add.image(x, y, texture)
-    const image2 = this.scene.add.image(x - 25, y, texture)
-    this.add(image)
-    this.add(image2)
     this.scene.add.existing(this)
     this.direction = 3 // 1 Arriba 2 Derecha 3 Abajo 4 Izquierda
-    this.velocity = 1.4
-    this.x = x
-    this.y = y
+    this.velocity = 200 // tiempo en milisegundos que tarda en ejecutar cada movimiento
+    this.coordX = coordX
+    this.coordY = coordY
+    this.x = (coordX * 25) + 12.5
+    this.y = (coordY * 25) + 12.5
+    this.scene.board[coordY][coordX] = 1
+    const image = this.scene.add.image(this.x, this.y, texture)
+    this.add(image)
+    this.timer = this.scene.time.addEvent({
+      delay: this.velocity,
+      callback: () => {
+        this.move()
+      },
+      loop: true
+    })
   }
 
   setDirection(direction) {
@@ -21,30 +30,51 @@ export default class Snake extends Phaser.GameObjects.Group {
     }
   }
 
-  move() {
-    let childs = 0
-    this.children.each((snake) => {
-      snake.x = this.x + (25 * childs)
-      snake.y = this.y
-      childs++
+  movementEffect(image) {
+    this.tween = this.scene.tweens.add({
+      targets: image,
+      delay: 0,
+      duration: this.velocity,
+      x: (this.coordX * 25) + 12.5,
+      y: (this.coordY * 25) + 12.5,
+      repeat: 0
     })
   }
-  
-  preUpdate() {
+
+  move() {
+    this.scene.board[this.coordY][this.coordX] = 0
     switch (this.direction) {
-      case 1:
-        if (this.y >= 12.5) this.y -= this.velocity
+      case 1: this.coordY--
         break
-      case 2:
-        if (this.x <= (450 - 12.5)) this.x += this.velocity
+      case 2: this.coordX++
         break
-      case 3:
-        if (this.y <= (600 - 12.5)) this.y += this.velocity
+      case 3: this.coordY++
         break
-      case 4:
-        if (this.x >= 12.5) this.x -= this.velocity
+      case 4: this.coordX--
         break
     }
-    this.move()
+    if (this.coordX < 0 || this.coordX > 17 || this.coordY < 0 || this.coordY > 23 || this.scene.board[this.coordY][this.coordX] != 0) {
+      // FIN DEL JUEGO
+      console.log('FIN DEL JUEGO')
+    } else {
+      this.scene.board[this.coordY][this.coordX] = 1
+      this.x = (this.coordX * 25) + 12.5
+      this.y = (this.coordY * 25) + 12.5
+      this.children.each((snake) => {
+        this.movementEffect(snake)
+      })
+    }
   }
+
+  // move() {
+  //   let childs = 0
+  //   this.children.each((snake) => {
+  //     snake.x = this.x + (25 * childs)
+  //     snake.y = this.y
+  //     childs++
+  //   })
+  // }
+
+  
+
 }

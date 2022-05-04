@@ -3,7 +3,7 @@ import Snake from "./Snake"
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: "Game" })
-
+    this.board = []
   }
 
   create() {
@@ -12,7 +12,16 @@ export default class Game extends Phaser.Scene {
       font: '20px Arial',
     })
 
-    this.snake = new Snake(this, 100, 100, 'square')
+    // matriz de 18x24
+    for (let i = 0; i < 24; i++) {
+      this.board[i] = []
+      for (let x = 0; x < 18; x++) {
+        this.board[i][x] = 0
+      }
+    }
+    console.log(this.board)
+
+    this.snake = new Snake(this, 5, 2, 'square')
 
     // Teclado alfabético
     this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W) // ArrowUp
