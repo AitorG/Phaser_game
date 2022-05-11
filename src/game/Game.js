@@ -1,8 +1,9 @@
-import Snake from "./Snake"
+import Snake from './Snake'
+import Food from './Food'
 
 export default class Game extends Phaser.Scene {
   constructor() {
-    super({ key: "Game" })
+    super({ key: 'Game' })
     this.board = []
   }
 
@@ -22,6 +23,8 @@ export default class Game extends Phaser.Scene {
     console.log(this.board)
 
     this.snake = new Snake(this, 5, 2, 'square')
+
+    this.food = new Food(this)
 
     // Teclado alfabético
     this.up = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W) // ArrowUp

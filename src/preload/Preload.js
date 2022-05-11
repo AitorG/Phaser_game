@@ -19,6 +19,7 @@ export default class Preload extends Phaser.Scene {
 
     //Load Assets
     this.load.image("square", "./assets/square.png")
+    this.load.image("food", "./assets/food.png")
   }
 
   create() {

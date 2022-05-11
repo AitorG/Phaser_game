@@ -53,10 +53,14 @@ export default class Snake extends Phaser.GameObjects.Group {
       case 4: this.coordX--
         break
     }
-    if (this.coordX < 0 || this.coordX > 17 || this.coordY < 0 || this.coordY > 23 || this.scene.board[this.coordY][this.coordX] != 0) {
+    if (this.coordX < 0 || this.coordX > 17 || this.coordY < 0 || this.coordY > 23 || this.scene.board[this.coordY][this.coordX] == 1) {
       // FIN DEL JUEGO
       console.log('FIN DEL JUEGO')
     } else {
+      if (this.scene.board[this.coordY][this.coordX] == 2) { // comida
+        console.log('HE COMIDOOOOO')
+        this.scene.food.move()
+      }
       this.scene.board[this.coordY][this.coordX] = 1
       this.x = (this.coordX * 25) + 12.5
       this.y = (this.coordY * 25) + 12.5
