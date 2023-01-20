@@ -6,8 +6,8 @@ import Game from "./game/Game"
 const config = {
   type: Phaser.AUTO,
   parent: "phaser-example",
-  width: 450,
-  height: 600,
+  width: 800,
+  height: 800,
   scene: [
     Preload,
     Game

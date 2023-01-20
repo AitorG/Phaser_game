@@ -5,7 +5,7 @@ export default class Game extends Phaser.Scene {
   }
 
   create() {
-    const hello = this.add.text(0, 0, 'Hola, el juego esta en marcha', {
+    const hello = this.add.text(0, 0, 'Hola que tal', {
       color: '#FFFFFF',
       font: '20px Arial',
     })
