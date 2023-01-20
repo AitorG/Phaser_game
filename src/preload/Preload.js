@@ -4,7 +4,7 @@ export default class Preload extends Phaser.Scene {
   }
 
   preload() {
-   
+    this.load.image('square', 'assets/square.png')
   }
 
   create() {
