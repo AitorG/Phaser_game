@@ -48,7 +48,7 @@ export default class Game extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys()
 
     this.forParaEstrellas(12)
-    this.forParaBombas(12)
+    this.forParaBombas(8)
   }
 
   forParaEstrellas(cuantasEstrellas){
