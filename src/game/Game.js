@@ -4,6 +4,7 @@ export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'Game' })
     this.estrellas  = []
+    this.bombas = []
   }
 
 
@@ -47,7 +48,7 @@ export default class Game extends Phaser.Scene {
     this.cursors = this.input.keyboard.createCursorKeys()
 
     this.forParaEstrellas(12)
-    // this.forParaBombas(12)
+    this.forParaBombas(12)
   }
 
   forParaEstrellas(cuantasEstrellas){
@@ -65,11 +66,20 @@ export default class Game extends Phaser.Scene {
       estrella.disableBody(true, true)
     }
   }
+  
 
   forParaBombas(cuantasBombas){
     for (let cuenta = 0; cuenta < cuantasBombas; cuenta++){
-      this.bomba = this.add.image((this.getRandomInt(30,610)),(this.getRandomInt(30, 750)),"Bomba")
-      }
+      const bomba = this.physics.add.image((this.getRandomInt(30,750)),(this.getRandomInt(30, 500)),"Bomba")
+      bomba.setCollideWorldBounds(true)
+      bomba.setBounceY(1)
+      bomba.setBounceX(1)
+      bomba.setVelocityX(35)
+      bomba.setVelocityY(30)
+
+      this.physics.add.collider(bomba, this.plataformas)
+      this.bombas.push(bomba)
+    }
   }
 
   /**
