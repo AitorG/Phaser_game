@@ -1,10 +1,12 @@
-//DEBERES: Las bombas deben moverse de por el mapa (aleatoriamente), ponerle velocidadX y velocidadY y hacerle un bounce para que rebote. Tienen que rebotar con los bordes del mundo y con las plataformas.
+//DEBERES: Poner puntuación hacer y sumar la puntuación con las estrellas (cada estrella valdrá un punto)
 
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'Game' })
     this.estrellas  = []
     this.bombas = []
+    this.vidas = 3
+    this.corazones = []
   }
 
 
@@ -13,13 +15,17 @@ export default class Game extends Phaser.Scene {
     this.cielo = this.add.image(400, 300, "Cielo")
 
     this.plataformas = this.physics.add.staticGroup()
-    this.plataformas.create(200 ,585 , "Plataforma")
-    this.plataformas.create(600 ,585 , "Plataforma")
-    this.plataformas.create(600 ,500 , "Plataforma")
-    this.plataformas.create(150 ,400 , "Plataforma")
-    this.plataformas.create(600 ,300 , "Plataforma")
-    this.plataformas.create(150 ,190 , "Plataforma")
-    this.plataformas.create(600 ,100 , "Plataforma")
+    this.plataformas.create(200, 585, "Plataforma")
+    this.plataformas.create(600, 585, "Plataforma")
+    this.plataformas.create(600, 500, "Plataforma")
+    this.plataformas.create(150, 400, "Plataforma")
+    this.plataformas.create(600, 300, "Plataforma")
+    this.plataformas.create(150, 190, "Plataforma")
+    this.plataformas.create(600, 100, "Plataforma")
+
+    this.corazones.push(this.corazon1 = this.add.image(30, 30, "Corazon"))
+    this.corazones.push(this.corazon2 = this.add.image(80, 30, "Corazon"))
+    this.corazones.push(this.corazon3 = this.add.image(130, 30, "Corazon"))
 
     this.personaje = this.physics.add.sprite(350, 545,"Personaje")
     this.personaje.setBounce(0.2)
@@ -52,6 +58,8 @@ export default class Game extends Phaser.Scene {
 
   }
 
+// FIN DEL CREATE
+
   forParaEstrellas(cuantasEstrellas){
     for (let cuenta = 0; cuenta < cuantasEstrellas; cuenta++){
       const estrella = this.physics.add.image((this.getRandomInt(30,750)),(this.getRandomInt(30, 500)),"Estrella")
@@ -67,7 +75,10 @@ export default class Game extends Phaser.Scene {
       estrella.disableBody(true, true)
     }
   }
-  
+
+  quitarCorazones(cualCorazon){
+    this.corazones[cualCorazon].setVisible(false)
+  }
 
   forParaBombas(cuantasBombas){
     for (let cuenta = 0; cuenta < cuantasBombas; cuenta++){
@@ -77,13 +88,24 @@ export default class Game extends Phaser.Scene {
       bomba.setBounceX(1)
       bomba.setVelocityX(15)
       bomba.setVelocityY(-100)
-      this.physics.add.collider(bomba, this.personaje, function() {
-        console.log('¡Colision detectada!');
-      });
+      this.physics.add.collider(bomba, this.personaje, () => {
+        bomba.disableBody(true, true)
+        this.vidas = this.vidas - 1
+        this.quitarCorazones(this.vidas)
+        if(this.vidas <= 0){
+          console.log("GAME OVER")
+          this.gameOver()
+        }
+      })
       this.physics.add.collider(bomba, this.plataformas)
       this.bombas.push(bomba)
     }
   }
+
+  gameOver() {
+    location.reload()
+  }
+
 
   /**
    * Método que devuelve un número entero entre el minimo y máximo que reciba por parámetro
@@ -110,7 +132,7 @@ export default class Game extends Phaser.Scene {
         this.personaje.anims.play("turn", true)
       }
       if (this.cursors.up.isDown && this.personaje.body.touching.down){
-        this.personaje.setVelocityY(-330)
+        this.personaje.setVelocityY(-140)
       }
     }
   }
