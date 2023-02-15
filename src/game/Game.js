@@ -49,6 +49,7 @@ export default class Game extends Phaser.Scene {
 
     this.forParaEstrellas(12)
     this.forParaBombas(8)
+
   }
 
   forParaEstrellas(cuantasEstrellas){
@@ -74,9 +75,11 @@ export default class Game extends Phaser.Scene {
       bomba.setCollideWorldBounds(true)
       bomba.setBounceY(1)
       bomba.setBounceX(1)
-      bomba.setVelocityX(35)
-      bomba.setVelocityY(30)
-
+      bomba.setVelocityX(15)
+      bomba.setVelocityY(-100)
+      this.physics.add.collider(bomba, this.personaje, function() {
+        console.log('¡Colision detectada!');
+      });
       this.physics.add.collider(bomba, this.plataformas)
       this.bombas.push(bomba)
     }
