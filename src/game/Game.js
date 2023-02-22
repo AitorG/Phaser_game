@@ -7,6 +7,7 @@ export default class Game extends Phaser.Scene {
     this.bombas = []
     this.vidas = 3
     this.corazones = []
+    this.puntosEstrella = 0
   }
 
 
@@ -72,6 +73,7 @@ export default class Game extends Phaser.Scene {
 
   recogerEstrellas(personaje, estrella){
     if (estrella){
+      this.puntosEstrella = this.puntosEstrella + 1
       estrella.disableBody(true, true)
     }
   }
