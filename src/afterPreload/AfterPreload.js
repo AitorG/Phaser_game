@@ -4,7 +4,13 @@ export default class AfterPreload extends Phaser.Scene{
         this.afterText = ""
     }
     create() {
-        this.add.image(400, 300, "afterPreload")
+        let botonEmpezar = this.add.image(400, 300, "afterPreload")
+        botonEmpezar.setInteractive()
+        botonEmezar.on('pointerdown', () => {
+            this.scene.transition({
+                target: 'Game'
+            })
+        })
         this.afterText = this.add.text(250, 340, "PULSA PARA EMPEZAR", { 
             fontFamily: "Comic",
             fontSize: "30px",
