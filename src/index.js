@@ -1,5 +1,6 @@
 import Phaser from "phaser"
 import Preload from "./preload/Preload"
+import AfterPreload from "./afterPreload/AfterPreload.js"
 import Game from "./game/Game"
 
 
@@ -10,8 +11,13 @@ const config = {
   height: 600,
   scene: [
     Preload,
+    AfterPreload,
     Game
   ],
+  scale: {
+    mode: Phaser.Scale.FIT,
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+  },
   physics: {
     default: 'arcade',
     arcade: {
