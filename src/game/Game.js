@@ -1,4 +1,6 @@
-//DEBERES: Poner puntuación hacer y sumar la puntuación con las estrellas (cada estrella valdrá un punto)
+//DEBERES: Intentar poner el Joystick
+// https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
+// menu de la izquierda: Input -> Touch -> Virtual Joystick
 
 export default class Game extends Phaser.Scene {
   constructor() {
