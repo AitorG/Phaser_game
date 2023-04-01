@@ -8,11 +8,13 @@ export default class Game extends Phaser.Scene {
     this.vidas = 3
     this.corazones = []
     this.puntosEstrella = 0
+    this.now = 0
   }
 
 
 // El orden es importante al colocar las imágenes. La última creada es la que se ve por encima del resto.
   create() {
+    this.now = Date.now()
     this.cielo = this.add.image(400, 300, "Cielo")
 
     this.plataformas = this.physics.add.staticGroup()
@@ -57,6 +59,30 @@ export default class Game extends Phaser.Scene {
     this.forParaEstrellas(12)
     this.forParaBombas(8)
 
+    this.puntuacionText = this.add.text(650, 5, "Puntuación: 0", { 
+      fontFamily: "Comic",
+      fontSize: "18px",
+      color: "#FFFFFF",
+      stroke: '#000000',
+      strokeThickness: 4
+    })
+
+    this.tiempo = this.add.text(460, 5, "Tiempo: 0.00s", { 
+      fontFamily: "Comic",
+      fontSize: "18px",
+      color: "#FFFF44",
+      stroke: '#000000',
+      strokeThickness: 4
+    })
+
+    this.fps = this.add.text(260, 5, "FPS: 30", { 
+      fontFamily: "Comic",
+      fontSize: "18px",
+      color: "#FFFF44",
+      stroke: '#000000',
+      strokeThickness: 4
+    })
+
   }
 
 // FIN DEL CREATE
@@ -66,7 +92,7 @@ export default class Game extends Phaser.Scene {
       const estrella = this.physics.add.image((this.getRandomInt(30,750)),(this.getRandomInt(30, 500)),"Estrella")
       estrella.setBounceY(0.5)
       this.physics.add.collider(estrella, this.plataformas)
-      this.physics.add.overlap(this.personaje, estrella, this.recogerEstrellas)
+      this.physics.add.overlap(this.personaje, estrella, this.recogerEstrellas, null, this)
       this.estrellas.push(estrella)
     }
   }
@@ -74,12 +100,15 @@ export default class Game extends Phaser.Scene {
   recogerEstrellas(personaje, estrella){
     if (estrella){
       this.puntosEstrella = this.puntosEstrella + 1
+      this.puntuacionText.setText('Puntuación: ' + this.puntosEstrella)
       estrella.disableBody(true, true)
     }
   }
 
   quitarCorazones(cualCorazon){
     this.corazones[cualCorazon].setVisible(false)
+    this.puntosEstrella -= 1
+    this.puntuacionText.setText('Puntuación: ' + this.puntosEstrella)
   }
 
   forParaBombas(cuantasBombas){
@@ -119,7 +148,7 @@ export default class Game extends Phaser.Scene {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
-  update() {
+  update(time, delta) {
     if (this.cursors){
       if (this.cursors.left.isDown){
         this.personaje.setVelocityX(-160)
@@ -134,8 +163,10 @@ export default class Game extends Phaser.Scene {
         this.personaje.anims.play("turn", true)
       }
       if (this.cursors.up.isDown && this.personaje.body.touching.down){
-        this.personaje.setVelocityY(-140)
+        this.personaje.setVelocityY(-170)
       }
     }
+    this.tiempo.setText('Tiempo: ' + Math.round(((Date.now() - this.now) / 1000) * 100) / 100 + 's')
+    this.fps.setText('FPS: ' + Math.round(this.game.loop.actualFps))
   }
 }

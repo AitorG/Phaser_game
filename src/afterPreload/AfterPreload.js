@@ -6,7 +6,7 @@ export default class AfterPreload extends Phaser.Scene{
     create() {
         let botonEmpezar = this.add.image(400, 300, "afterPreload")
         botonEmpezar.setInteractive()
-        botonEmezar.on('pointerdown', () => {
+        botonEmpezar.on('pointerdown', () => {
             this.scene.transition({
                 target: 'Game'
             })
