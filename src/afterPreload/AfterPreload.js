@@ -4,7 +4,7 @@ export default class AfterPreload extends Phaser.Scene{
         this.afterText = ""
     }
     create() {
-        let botonEmpezar = this.add.image(400, 300, "afterPreload")
+        let botonEmpezar = this.add.image(400, 300, "afterPreload").setDisplaySize(800, 600)
         botonEmpezar.setInteractive()
         botonEmpezar.on('pointerdown', () => {
             this.scene.transition({
