@@ -1,0 +1,15 @@
+{
+    "short_name": "JuegoIñigo",
+    "name": "JuegoIñigo",
+    "orientation": "landscape",
+    "display": "fullscreen",
+    "scope": "/",
+    "start_url": "/",
+    "icons": [
+      {
+        "src": "logo.png",
+        "type": "image/png",
+        "sizes": "1024x1024"
+      }
+    ]
+  }

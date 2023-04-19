@@ -3,7 +3,6 @@ import Preload from "./preload/Preload"
 import AfterPreload from "./afterPreload/AfterPreload.js"
 import Game from "./game/Game"
 
-
 const config = {
   type: Phaser.AUTO,
   parent: "phaser-example",
@@ -25,7 +24,7 @@ const config = {
         y: 100
       }
     }
-  }
+  },
 }
 
 const game = new Phaser.Game(config)

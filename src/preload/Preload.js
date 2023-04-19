@@ -37,7 +37,7 @@ export default class Preload extends Phaser.Scene {
        }
      });
      percentText.setOrigin(0.5, 0.5);
-
+     //Load the assets
     this.load.image("afterPreload", "assets/afterPreload.png")
     this.load.image("Bomba", "assets/bomb.png")
     this.load.image("Plataforma", "assets/platform.png")
@@ -48,6 +48,8 @@ export default class Preload extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 48
     })
+    this.load.image("Joystick", "assets/joystick.png")
+    this.load.image("Thumb", "assets/thumb.png")
 
     this.load.addFile(
       new WebFontFile(this.load, [

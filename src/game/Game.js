@@ -1,6 +1,7 @@
 //DEBERES: Intentar poner el Joystick
 // https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
 // menu de la izquierda: Input -> Touch -> Virtual Joystick
+import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
 
 export default class Game extends Phaser.Scene {
   constructor() {
@@ -85,6 +86,34 @@ export default class Game extends Phaser.Scene {
       strokeThickness: 4
     })
 
+    var joyStick = new VirtualJoystick(this, {
+      x: 80,
+      y: 520,
+      radius: 32,
+      base: this.add.image(0,0,"Joystick"),
+      thumb: this.add.image(0,0,"Thumb"),
+    });
+    this.cursorKeys=joyStick.createCursorKeys()
+    joyStick.on("update", ()=>{
+      this.cursors.left.isDown = false
+      this.cursors.up.isDown = false
+      this.cursors.right.isDown = false
+      this.cursors.down.isDown = false
+      for (const name in this.cursorKeys) {
+        if (this.cursorKeys[name].isDown) {
+          switch (name) {
+            case 'left': this.cursors.left.isDown = true
+            break
+            case 'up': this.cursors.up.isDown = true
+            break
+            case 'right': this.cursors.right.isDown = true
+            break
+            case 'down': this.cursors.down.isDown = true
+            break
+          }
+        } 
+      }
+    })
   }
 
 // FIN DEL CREATE
