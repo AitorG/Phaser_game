@@ -40,6 +40,9 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: 'assets', to: 'assets' },
+        { from: 'icon.png', to: 'icon.png' },
+        { from: 'manifest.json', to: 'manifest.json' },
+        { from: 'sw.js', to: 'sw.js' },
       ],
     }),
   ]

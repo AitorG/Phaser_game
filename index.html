@@ -2,15 +2,16 @@
 <html>
   <head>
     <meta charset="UTF-8">
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="./logo.png" />
-  <meta name="format-detection" content="telephone=no">
-  <meta name="msapplication-tap-highlight" content="no">
-  <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="./icon.png" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="msapplication-tap-highlight" content="no">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover">
 
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Estrellitas</title>
     <style>
       @font-face {
         font-family: PermanentMarker;
@@ -34,14 +35,14 @@
     </style>
     <script>
       if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js', {
-    scope: '.' // <--- THIS BIT IS REQUIRED
-  }).then(function(registration) {
-    // Registration was successful
-  }, function(err) {
-    // registration failed :(
-  });
-}
+        navigator.serviceWorker.register('sw.js', {
+          scope: '.' // <--- THIS BIT IS REQUIRED
+        }).then(function(registration) {
+          // Registration was successful
+        }, function(err) {
+          // registration failed :(
+        });
+      }
     </script>
     </head>
     <meta charset="utf-8">
