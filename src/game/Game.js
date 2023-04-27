@@ -1,6 +1,6 @@
-//DEBERES: Intentar poner el Joystick
-// https://rexrainbow.github.io/phaser3-rex-notes/docs/site/
-// menu de la izquierda: Input -> Touch -> Virtual Joystick
+//DEBERES: Que la imagen de gameover ocupe toda la pantalla del juego
+//Meter la imagen de you win cuando gane (en pantalla completa) 
+//Cuando se muestre la imagen de you win tengo que mostrarle los puntos que ha conseguido y el tiempo que ha tardado
 import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
 
 export default class Game extends Phaser.Scene {
@@ -12,6 +12,7 @@ export default class Game extends Phaser.Scene {
     this.corazones = []
     this.puntosEstrella = 0
     this.now = 0
+    this.cuantasBombas = 0
   }
 
 
@@ -114,8 +115,8 @@ export default class Game extends Phaser.Scene {
         } 
       }
     })
-  }
 
+  }
 // FIN DEL CREATE
 
   forParaEstrellas(cuantasEstrellas){
@@ -133,6 +134,10 @@ export default class Game extends Phaser.Scene {
       this.puntosEstrella = this.puntosEstrella + 1
       this.puntuacionText.setText('Puntuación: ' + this.puntosEstrella)
       estrella.disableBody(true, true)
+      if (this.puntosEstrella == 12 - this.cuantasBombas){
+        console.log("YOU WON!")
+        this.gameOver()
+      }
     }
   }
 
@@ -153,6 +158,7 @@ export default class Game extends Phaser.Scene {
       this.physics.add.collider(bomba, this.personaje, () => {
         bomba.disableBody(true, true)
         this.vidas = this.vidas - 1
+        this.cuantasBombas ++
         this.quitarCorazones(this.vidas)
         if(this.vidas <= 0){
           console.log("GAME OVER")
@@ -165,7 +171,11 @@ export default class Game extends Phaser.Scene {
   }
 
   gameOver() {
-    location.reload()
+    this.gameOverImage = this.add.image(400, 300, "Game_Over")
+    this.scene.pause("Game")
+    setTimeout(()=>{
+      location.reload()
+    }, 3000)
   }
 
 

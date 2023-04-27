@@ -50,6 +50,8 @@ export default class Preload extends Phaser.Scene {
     })
     this.load.image("Joystick", "assets/joystick.png")
     this.load.image("Thumb", "assets/thumb.png")
+    this.load.image("Game_Over", "assets/game_over.jpg")
+    this.load.image("You_Win", "assets/you_win.jpg")
 
     this.load.addFile(
       new WebFontFile(this.load, [
