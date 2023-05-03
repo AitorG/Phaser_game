@@ -1,6 +1,5 @@
-//DEBERES: Que la imagen de gameover ocupe toda la pantalla del juego
-//Meter la imagen de you win cuando gane (en pantalla completa) 
-//Cuando se muestre la imagen de you win tengo que mostrarle los puntos que ha conseguido y el tiempo que ha tardado
+//DEBERES: El texto de pulse para jugar tiene que quedar centradito, el de ranking también
+//Pintar los botones de fácil y difícil dentro de dificultad, cuando pinches en alguna que el boton se coloree, si el otro a sido previamente seleccionado que se descolore
 import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
 
 export default class Game extends Phaser.Scene {
@@ -136,7 +135,7 @@ export default class Game extends Phaser.Scene {
       estrella.disableBody(true, true)
       if (this.puntosEstrella == 12 - this.cuantasBombas){
         console.log("YOU WON!")
-        this.gameOver()
+        this.youWin()
       }
     }
   }
@@ -176,6 +175,42 @@ export default class Game extends Phaser.Scene {
     setTimeout(()=>{
       location.reload()
     }, 3000)
+  }
+
+  youWin() {
+    this.youWinImage = this.add.image(400, 300, "You_Win")
+    this.youWinText = this.add.text(100, 200, "PUNTUACIÓN: " + this.puntosEstrella, { 
+      fontFamily: "Comic",
+      fontSize: "70px",
+      color: "#0078FF",
+      stroke: '#000000',
+      strokeThickness: 4
+   })
+   this.tweens.add({
+      targets: this.youWinImage,
+      alpha: 0.3,
+      yoyo: true, //para que haga el efecto hacia delante y hacia atrás
+      duration: 300, // duración del tween
+      repeat: -1 // el numero de veces que se ejecuta, -1 para infinitas
+    }) 
+    this.timeText = this.add.text(100, 300, "TIEMPO: " + (Math.round(((Date.now() - this.now) / 1000) * 100) / 100), { 
+      fontFamily: "Comic",
+      fontSize: "70px",
+      color: "#0078FF",
+      stroke: '#000000',
+      strokeThickness: 4
+   })
+   this.tweens.add({
+      targets: this.timeText,
+      alpha: 0.3,
+      yoyo: true, //para que haga el efecto hacia delante y hacia atrás
+      duration: 300, // duración del tween
+      repeat: -1 // el numero de veces que se ejecuta, -1 para infinitas
+    }) 
+    this.scene.pause("Game")
+    setTimeout(()=>{
+      location.reload()
+    }, 6000)
   }
 
 
