@@ -1,4 +1,4 @@
-//DEBERES: El texto de pulse para jugar tiene que quedar centradito, el de ranking también
+//DEBERES: El texto de pulse para jugar tiene que quedar centradito, el de ranking también (hecho)
 //Pintar los botones de fácil y difícil dentro de dificultad, cuando pinches en alguna que el boton se coloree, si el otro a sido previamente seleccionado que se descolore
 import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
 

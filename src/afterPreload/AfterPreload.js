@@ -5,7 +5,7 @@ export default class AfterPreload extends Phaser.Scene{
     }
     create() {
         let botonEmpezar = this.add.image(400, 300, "afterPreload").setDisplaySize(800, 600)
-        this.afterText = this.add.text(250, 340, "PULSA PARA EMPEZAR", { 
+        this.afterText = this.add.text(270, 340, "PULSA PARA EMPEZAR", { 
             fontFamily: "Comic",
             fontSize: "26px",
             color: "#0078FF",
@@ -26,7 +26,7 @@ export default class AfterPreload extends Phaser.Scene{
                 target: 'Game'
             })
         })
-        this.afterText = this.add.text(250, 280, "RANKING", { 
+        this.afterText = this.add.text(350, 280, "RANKING", { 
             fontFamily: "Comic",
             fontSize: "26px",
             color: "#0078FF",
