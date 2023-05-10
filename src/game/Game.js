@@ -1,5 +1,7 @@
-//DEBERES: El texto de pulse para jugar tiene que quedar centradito, el de ranking también (hecho)
-//Pintar los botones de fácil y difícil dentro de dificultad, cuando pinches en alguna que el boton se coloree, si el otro a sido previamente seleccionado que se descolore
+//ETXEKOLANAK: a medida que el tiempo pasa el juego se tiene que ver mas oscuro.
+// cada vez que cojes una estrella hay que aclarar el juego un poco
+// cada vez que te comes una bomba hay que oscurecer el juego
+// t.odo esto tiene que funcionar cuando este en dificil
 import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
 
 export default class Game extends Phaser.Scene {
