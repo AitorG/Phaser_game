@@ -1,3 +1,4 @@
+import config from "../config.js"
 export default class AfterPreload extends Phaser.Scene {
     constructor() {
         super({ key: 'AfterPreload' })
@@ -68,6 +69,7 @@ export default class AfterPreload extends Phaser.Scene {
         rectangulo5.on('pointerdown', () => {
             rectangulo5.setFillStyle(0x00DC3F, 0.65)
             rectangulo6.setFillStyle(0x000000, 0)
+            config.isHardMode = false
         })
         this.afterText = this.add.text(445, 168, "FÁCIL", {
             fontFamily: "Comic",
@@ -83,6 +85,7 @@ export default class AfterPreload extends Phaser.Scene {
             console.log("ponterdown")
             rectangulo6.setFillStyle(0xDC003F, 0.65)
             rectangulo5.setFillStyle(0x000000, 0)
+            config.isHardMode = true
         })
         this.afterText = this.add.text(521, 168, "DIFÍCIL", {
             fontFamily: "Comic",

@@ -1,9 +1,6 @@
-//ETXEKOLANAK: a medida que el tiempo pasa el juego se tiene que ver mas oscuro.
-// cada vez que cojes una estrella hay que aclarar el juego un poco
-// cada vez que te comes una bomba hay que oscurecer el juego
-// t.odo esto tiene que funcionar cuando este en dificil
+//ETXEKOLANAK: meter un sonido (el sonido de aitor(discord, cada vez que me coma una bomba que ese sonido se escuche)
+import config from "../config"
 import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
-
 export default class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'Game' })
@@ -14,6 +11,7 @@ export default class Game extends Phaser.Scene {
     this.puntosEstrella = 0
     this.now = 0
     this.cuantasBombas = 0
+    this.counter = 0
   }
 
 
@@ -63,6 +61,9 @@ export default class Game extends Phaser.Scene {
 
     this.forParaEstrellas(12)
     this.forParaBombas(8)
+    if (config.isHardMode == true){
+      this.rect = this.add.rectangle(400, 300, 800, 600, 0x000000, 1)
+    }
 
     this.puntuacionText = this.add.text(650, 5, "Puntuación: 0", { 
       fontFamily: "Comic",
@@ -88,13 +89,13 @@ export default class Game extends Phaser.Scene {
       strokeThickness: 4
     })
 
-    var joyStick = new VirtualJoystick(this, {
+    let joyStick = new VirtualJoystick(this, {
       x: 80,
       y: 520,
       radius: 32,
       base: this.add.image(0,0,"Joystick"),
       thumb: this.add.image(0,0,"Thumb"),
-    });
+    })
     this.cursorKeys=joyStick.createCursorKeys()
     joyStick.on("update", ()=>{
       this.cursors.left.isDown = false
@@ -135,12 +136,19 @@ export default class Game extends Phaser.Scene {
       this.puntosEstrella = this.puntosEstrella + 1
       this.puntuacionText.setText('Puntuación: ' + this.puntosEstrella)
       estrella.disableBody(true, true)
+      this.collectStar()
       if (this.puntosEstrella == 12 - this.cuantasBombas){
         console.log("YOU WON!")
         this.youWin()
       }
     }
   }
+
+  eatBomb(player, bomb) {
+    if (config.isHardMode == true){
+      this.counter = this.counter - 0.1
+    }
+}
 
   quitarCorazones(cualCorazon){
     this.corazones[cualCorazon].setVisible(false)
@@ -158,6 +166,7 @@ export default class Game extends Phaser.Scene {
       bomba.setVelocityY(-100)
       this.physics.add.collider(bomba, this.personaje, () => {
         bomba.disableBody(true, true)
+        this.eatBomb()
         this.vidas = this.vidas - 1
         this.cuantasBombas ++
         this.quitarCorazones(this.vidas)
@@ -171,8 +180,15 @@ export default class Game extends Phaser.Scene {
     }
   }
 
+  collectStar(player, star) {
+    if (config.isHardMode == true){
+      this.counter = this.counter +0.125
+    }
+}
+
   gameOver() {
     this.gameOverImage = this.add.image(400, 300, "Game_Over")
+    this.cameras.main.setAlpha(1)
     this.scene.pause("Game")
     setTimeout(()=>{
       location.reload()
@@ -227,6 +243,11 @@ export default class Game extends Phaser.Scene {
   }
 
   update(time, delta) {
+    if (config.isHardMode == true){
+      this.rect.setAlpha(0+ (Math.round(((Date.now() - this.now) / 1000) * 100) / 1000) -this.counter)
+      console.log((Math.round(((Date.now() - this.now) / 1000) * 100) / 1000))
+    }
+
     if (this.cursors){
       if (this.cursors.left.isDown){
         this.personaje.setVelocityX(-160)
