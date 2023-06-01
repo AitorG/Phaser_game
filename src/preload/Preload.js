@@ -52,6 +52,11 @@ export default class Preload extends Phaser.Scene {
     this.load.image("Thumb", "assets/thumb.png")
     this.load.image("Game_Over", "assets/game_over.jpg")
     this.load.image("You_Win", "assets/you_win.jpg")
+    this.load.audio("Explosion", "assets/107.wav")
+    this.load.audio("sonido_Estrella", "assets/sonidoEstrella.mp3")
+    this.load.audio("musica_fondo", "assets/musica_fondo.mp3")
+    this.load.audio("paso1", "assets/23.wav")
+    this.load.audio("paso2", "assets/24.wav")
 
     this.load.addFile(
       new WebFontFile(this.load, [

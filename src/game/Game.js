@@ -12,6 +12,11 @@ export default class Game extends Phaser.Scene {
     this.now = 0
     this.cuantasBombas = 0
     this.counter = 0
+    this.explosion
+    this.sonidoEstrella
+    this.musicaFondo
+    this.paso1
+    this.paso2
   }
 
 
@@ -89,6 +94,13 @@ export default class Game extends Phaser.Scene {
       strokeThickness: 4
     })
 
+    this.explosion = this.sound.add ("Explosion", {loop: false, volume: 0.25})
+    this.sonidoEstrella = this.sound.add ("sonido_Estrella", {loop: false, volume: 0.25})
+    this.musica_fondo = this.sound.add ("musica_fondo", {loop: true, volume: 0.05})
+    this.musica_fondo.play()
+    this.paso1 = this.sound.add ("paso1", {loop: false, volume: 0.5})
+    this.paso2 = this.sound.add ("paso2", {loop: false, volume: 0.5})
+
     let joyStick = new VirtualJoystick(this, {
       x: 80,
       y: 520,
@@ -137,6 +149,7 @@ export default class Game extends Phaser.Scene {
       this.puntuacionText.setText('Puntuación: ' + this.puntosEstrella)
       estrella.disableBody(true, true)
       this.collectStar()
+      this.sonidoEstrella.play()
       if (this.puntosEstrella == 12 - this.cuantasBombas){
         console.log("YOU WON!")
         this.youWin()
@@ -167,6 +180,7 @@ export default class Game extends Phaser.Scene {
       this.physics.add.collider(bomba, this.personaje, () => {
         bomba.disableBody(true, true)
         this.eatBomb()
+        this.explosion.play()
         this.vidas = this.vidas - 1
         this.cuantasBombas ++
         this.quitarCorazones(this.vidas)
@@ -252,10 +266,14 @@ export default class Game extends Phaser.Scene {
       if (this.cursors.left.isDown){
         this.personaje.setVelocityX(-160)
         this.personaje.anims.play("left", true)
+        this.paso1.play()
+        this.paso2.play()
       }
       else if (this.cursors.right.isDown){
         this.personaje.setVelocityX(160)
         this.personaje.anims.play("right", true)
+        this.paso1.play()
+        this.paso2.play()
       }
       else{
         this.personaje.setVelocityX(0)
@@ -263,6 +281,8 @@ export default class Game extends Phaser.Scene {
       }
       if (this.cursors.up.isDown && this.personaje.body.touching.down){
         this.personaje.setVelocityY(-170)
+        this.paso1.play()
+        this.paso2.play()
       }
     }
     this.tiempo.setText('Tiempo: ' + Math.round(((Date.now() - this.now) / 1000) * 100) / 100 + 's')
