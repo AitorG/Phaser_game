@@ -17,6 +17,7 @@ export default class Game extends Phaser.Scene {
     this.musicaFondo
     this.paso1
     this.paso2
+    this.pasoActual = 1
   }
 
 
@@ -95,11 +96,11 @@ export default class Game extends Phaser.Scene {
     })
 
     this.explosion = this.sound.add ("Explosion", {loop: false, volume: 0.25})
-    this.sonidoEstrella = this.sound.add ("sonido_Estrella", {loop: false, volume: 0.25})
-    this.musica_fondo = this.sound.add ("musica_fondo", {loop: true, volume: 0.05})
+    this.sonidoEstrella = this.sound.add ("sonido_Estrella", {loop: false, volume: 0.2})
+    this.musica_fondo = this.sound.add ("musica_fondo", {loop: true, volume: 0.04})
     this.musica_fondo.play()
-    this.paso1 = this.sound.add ("paso1", {loop: false, volume: 0.5})
-    this.paso2 = this.sound.add ("paso2", {loop: false, volume: 0.5})
+    this.paso1 = this.sound.add ("paso1", {loop: false, volume: 0.2})
+    this.paso2 = this.sound.add ("paso2", {loop: false, volume: 0.2})
 
     let joyStick = new VirtualJoystick(this, {
       x: 80,
@@ -175,8 +176,9 @@ export default class Game extends Phaser.Scene {
       bomba.setCollideWorldBounds(true)
       bomba.setBounceY(1)
       bomba.setBounceX(1)
-      bomba.setVelocityX(15)
-      bomba.setVelocityY(-100)
+      bomba.setVelocityX(this.getRandomInt(-150, 150))
+      bomba.setVelocityY(-200)
+      bomba.setGravityY(-500)
       this.physics.add.collider(bomba, this.personaje, () => {
         bomba.disableBody(true, true)
         this.eatBomb()
@@ -192,6 +194,7 @@ export default class Game extends Phaser.Scene {
       this.physics.add.collider(bomba, this.plataformas)
       this.bombas.push(bomba)
     }
+    this.physics.add.collider(this.bombas, this.bombas)
   }
 
   collectStar(player, star) {
@@ -256,6 +259,22 @@ export default class Game extends Phaser.Scene {
     return Math.floor(Math.random() * (max - min + 1)) + min
   }
 
+  reproducirPaso() {
+    if (this.personaje.body.blocked.down) {
+      if (this.pasoActual == 1) {
+        if (!this.paso2.isPlaying) {
+          this.paso1.play()
+          this.pasoActual = 2
+        }
+      } else {
+        if (!this.paso1.isPlaying) {
+          this.paso2.play()
+          this.pasoActual = 1
+        }
+      }
+    }
+  }
+
   update(time, delta) {
     if (config.isHardMode == true){
       this.rect.setAlpha(0+ (Math.round(((Date.now() - this.now) / 1000) * 100) / 1000) -this.counter)
@@ -266,23 +285,19 @@ export default class Game extends Phaser.Scene {
       if (this.cursors.left.isDown){
         this.personaje.setVelocityX(-160)
         this.personaje.anims.play("left", true)
-        this.paso1.play()
-        this.paso2.play()
+        this.reproducirPaso()
       }
       else if (this.cursors.right.isDown){
         this.personaje.setVelocityX(160)
         this.personaje.anims.play("right", true)
-        this.paso1.play()
-        this.paso2.play()
+        this.reproducirPaso()
       }
       else{
         this.personaje.setVelocityX(0)
         this.personaje.anims.play("turn", true)
       }
       if (this.cursors.up.isDown && this.personaje.body.touching.down){
-        this.personaje.setVelocityY(-170)
-        this.paso1.play()
-        this.paso2.play()
+        this.personaje.setVelocityY(-370)
       }
     }
     this.tiempo.setText('Tiempo: ' + Math.round(((Date.now() - this.now) / 1000) * 100) / 100 + 's')
