@@ -66,6 +66,7 @@ export default class AfterPreload extends Phaser.Scene {
         })
         let rectangulo5 = this.add.rectangle(470, 180, 80, 30).setStrokeStyle(1, 0x000000, 0.65)
         rectangulo5.setInteractive()
+        rectangulo5.setFillStyle(0x00DC3F, 0.65)
         rectangulo5.on('pointerdown', () => {
             rectangulo5.setFillStyle(0x00DC3F, 0.65)
             rectangulo6.setFillStyle(0x000000, 0)

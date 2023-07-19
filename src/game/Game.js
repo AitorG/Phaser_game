@@ -1,4 +1,5 @@
 //ETXEKOLANAK: meter un sonido (el sonido de aitor(discord, cada vez que me coma una bomba que ese sonido se escuche)
+import Personaje from "../personaje/Personaje.js"
 import config from "../config"
 import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
 export default class Game extends Phaser.Scene {
@@ -44,6 +45,13 @@ export default class Game extends Phaser.Scene {
     this.personaje.setCollideWorldBounds(true)
     this.physics.add.collider(this.personaje, this.plataformas)
 
+    this.personaje2 = this.physics.add.sprite(350, 545,"Personaje")
+    this.personaje2.setBounce(0.2)
+    this.personaje2.setCollideWorldBounds(true)
+    this.physics.add.collider(this.personaje2, this.plataformas)
+
+    const personaje2 = new Personaje (this)
+
     this.anims.create({
       key: "left",
       frames: this.anims.generateFrameNumbers("Personaje", { start: 0, end: 3 }),
@@ -61,6 +69,12 @@ export default class Game extends Phaser.Scene {
       frames: [{ key: "Personaje", frame: 4 }],
       frameRate: 15,
       repeat: -1
+    })
+
+    this.anims.create({
+      frameRate: 19,
+      key: "Explota",
+      frames: this.anims.generateFrameNames('Anim_Explosion', {start: 0, end: 19})
     })
 
     this.cursors = this.input.keyboard.createCursorKeys()
