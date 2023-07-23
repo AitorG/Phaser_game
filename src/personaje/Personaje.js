@@ -21,25 +21,30 @@ export default class Personaje extends Phaser.GameObjects.Container {
     this.width = 32 
     this.height = 48
     this.scene.add.existing(this)
+    this.cuerpo = this.scene.physics.add.sprite(350, 545,"Personaje")
+    this.create()
   }
 
   create(){
-    this.add(this.image)
-    this.anims.create({
+    this.cuerpo.setBounce(0.2)
+    this.cuerpo.setCollideWorldBounds(true)
+    this.scene.physics.add.collider(this.cuerpo, this.scene.plataformas)
+
+    this.scene.anims.create({
       key: "left",
-      frames: this.anims.generateFrameNumbers("Personaje2", { start: 0, end: 3 }),
+      frames: this.scene.anims.generateFrameNumbers("Personaje", { start: 0, end: 3 }),
       frameRate: 15,
       repeat: -1
     })
-    this.anims.create({
+    this.scene.anims.create({
       key: "right",
-      frames: this.anims.generateFrameNumbers("Personaje2", { start: 5, end: 8 }),
+      frames: this.scene.anims.generateFrameNumbers("Personaje", { start: 5, end: 8 }),
       frameRate: 15,
       repeat: -1
     })
-    this.anims.create({
+    this.scene.anims.create({
       key: "turn",
-      frames: [{ key: "Personaje2", frame: 4 }],
+      frames: [{ key: "Personaje", frame: 4 }],
       frameRate: 15,
       repeat: -1
     })

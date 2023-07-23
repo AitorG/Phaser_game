@@ -1,4 +1,10 @@
-//ETXEKOLANAK: meter un sonido (el sonido de aitor(discord, cada vez que me coma una bomba que ese sonido se escuche)
+/** 
+ * ToDo: DEBERES 
+ * Agregar al menú la opción de elegir entre uno o dos personajes, que sea como el FACIL / DIFICIL
+ * Hacer que al pulsar el en ranking me lleve a otra escena que tenga otro fondo distinto y ponga RANKING, donde agregaremos la gente cuando la tengamos.
+ * En la nueva escena de Ranking, agregar textos como "cabeceras" de una tabla, por ejemplo:
+ * POSICIÓN       NOMBRE        PUNTOS        DIFICULTAD        JUGADORES
+ */
 import Personaje from "../personaje/Personaje.js"
 import config from "../config"
 import VirtualJoystick from 'phaser3-rex-plugins/plugins/virtualjoystick'
@@ -40,36 +46,10 @@ export default class Game extends Phaser.Scene {
     this.corazones.push(this.corazon2 = this.add.image(80, 30, "Corazon"))
     this.corazones.push(this.corazon3 = this.add.image(130, 30, "Corazon"))
 
-    this.personaje = this.physics.add.sprite(350, 545,"Personaje")
-    this.personaje.setBounce(0.2)
-    this.personaje.setCollideWorldBounds(true)
-    this.physics.add.collider(this.personaje, this.plataformas)
-
-    this.personaje2 = this.physics.add.sprite(350, 545,"Personaje")
-    this.personaje2.setBounce(0.2)
-    this.personaje2.setCollideWorldBounds(true)
-    this.physics.add.collider(this.personaje2, this.plataformas)
-
-    const personaje2 = new Personaje (this)
-
-    this.anims.create({
-      key: "left",
-      frames: this.anims.generateFrameNumbers("Personaje", { start: 0, end: 3 }),
-      frameRate: 15,
-      repeat: -1
-    })
-    this.anims.create({
-      key: "right",
-      frames: this.anims.generateFrameNumbers("Personaje", { start: 5, end: 8 }),
-      frameRate: 15,
-      repeat: -1
-    })
-    this.anims.create({
-      key: "turn",
-      frames: [{ key: "Personaje", frame: 4 }],
-      frameRate: 15,
-      repeat: -1
-    })
+    this.personaje = new Personaje (this)
+    if (config.personajes == 2) {
+      this.personaje2 = new Personaje(this)
+    }
 
     this.anims.create({
       frameRate: 19,
@@ -78,7 +58,12 @@ export default class Game extends Phaser.Scene {
     })
 
     this.cursors = this.input.keyboard.createCursorKeys()
-
+    this.cursors2 = this.input.keyboard.addKeys({
+      up: Phaser.Input.Keyboard.KeyCodes.W,
+      down: Phaser.Input.Keyboard.KeyCodes.S,
+      left: Phaser.Input.Keyboard.KeyCodes.A,
+      right: Phaser.Input.Keyboard.KeyCodes.D
+    })
     this.forParaEstrellas(12)
     this.forParaBombas(8)
     if (config.isHardMode == true){
@@ -145,6 +130,37 @@ export default class Game extends Phaser.Scene {
       }
     })
 
+    if (config.personajes == 2) {
+      let joyStick2 = new VirtualJoystick(this, {
+        x: 718,
+        y: 520,
+        radius: 32,
+        base: this.add.image(0,0,"Joystick"),
+        thumb: this.add.image(0,0,"Thumb"),
+      })
+      this.cursorKeys2=joyStick2.createCursorKeys()
+      joyStick2.on("update", ()=>{
+        this.cursors2.left.isDown = false
+        this.cursors2.up.isDown = false
+        this.cursors2.right.isDown = false
+        this.cursors2.down.isDown = false
+        for (const name in this.cursorKeys2) {
+          if (this.cursorKeys2[name].isDown) {
+            switch (name) {
+              case 'left': this.cursors2.left.isDown = true
+              break
+              case 'up': this.cursors2.up.isDown = true
+              break
+              case 'right': this.cursors2.right.isDown = true
+              break
+              case 'down': this.cursors2.down.isDown = true
+              break
+            }
+          } 
+        }
+      })
+    }
+
   }
 // FIN DEL CREATE
 
@@ -153,7 +169,10 @@ export default class Game extends Phaser.Scene {
       const estrella = this.physics.add.image((this.getRandomInt(30,750)),(this.getRandomInt(30, 500)),"Estrella")
       estrella.setBounceY(0.5)
       this.physics.add.collider(estrella, this.plataformas)
-      this.physics.add.overlap(this.personaje, estrella, this.recogerEstrellas, null, this)
+      this.physics.add.overlap(this.personaje.cuerpo, estrella, this.recogerEstrellas, null, this)
+      if (config.personajes == 2) {
+        this.physics.add.overlap(this.personaje2.cuerpo, estrella, this.recogerEstrellas, null, this)
+      }
       this.estrellas.push(estrella)
     }
   }
@@ -193,7 +212,7 @@ export default class Game extends Phaser.Scene {
       bomba.setVelocityX(this.getRandomInt(-150, 150))
       bomba.setVelocityY(-200)
       bomba.setGravityY(-500)
-      this.physics.add.collider(bomba, this.personaje, () => {
+      this.physics.add.collider(bomba, this.personaje.cuerpo, () => {
         bomba.disableBody(true, true)
         this.eatBomb()
         this.explosion.play()
@@ -205,6 +224,21 @@ export default class Game extends Phaser.Scene {
           this.gameOver()
         }
       })
+      if (config.personajes == 2) {
+        this.physics.add.collider(bomba, this.personaje2.cuerpo, () => {
+          bomba.disableBody(true, true)
+          this.eatBomb()
+          this.explosion.play()
+          this.vidas = this.vidas - 1
+          this.cuantasBombas ++
+          this.quitarCorazones(this.vidas)
+          if(this.vidas <= 0){
+            console.log("GAME OVER")
+            this.gameOver()
+          }
+        })
+      }
+      
       this.physics.add.collider(bomba, this.plataformas)
       this.bombas.push(bomba)
     }
@@ -274,7 +308,7 @@ export default class Game extends Phaser.Scene {
   }
 
   reproducirPaso() {
-    if (this.personaje.body.blocked.down) {
+    if (this.personaje.cuerpo.body.blocked.down || (config.personajes == 2 && this.personaje2.cuerpo.body.blocked.down)) {
       if (this.pasoActual == 1) {
         if (!this.paso2.isPlaying) {
           this.paso1.play()
@@ -295,23 +329,45 @@ export default class Game extends Phaser.Scene {
       console.log((Math.round(((Date.now() - this.now) / 1000) * 100) / 1000))
     }
 
+    if (config.personajes == 2) {
+      if (this.cursors2){
+        if (this.cursors2.left.isDown){
+          this.personaje2.cuerpo.setVelocityX(-160)
+          this.personaje2.cuerpo.anims.play("left", true)
+          this.reproducirPaso()
+        }
+        else if (this.cursors2.right.isDown){
+          this.personaje2.cuerpo.setVelocityX(160)
+          this.personaje2.cuerpo.anims.play("right", true)
+          this.reproducirPaso()
+        }
+        else{
+          this.personaje2.cuerpo.setVelocityX(0)
+          this.personaje2.cuerpo.anims.play("turn", true)
+        }
+        if (this.cursors2.up.isDown && this.personaje2.cuerpo.body.touching.down){
+          this.personaje2.cuerpo.setVelocityY(-370)
+        }
+      }
+    }
+
     if (this.cursors){
       if (this.cursors.left.isDown){
-        this.personaje.setVelocityX(-160)
-        this.personaje.anims.play("left", true)
+        this.personaje.cuerpo.setVelocityX(-160)
+        this.personaje.cuerpo.anims.play("left", true)
         this.reproducirPaso()
       }
       else if (this.cursors.right.isDown){
-        this.personaje.setVelocityX(160)
-        this.personaje.anims.play("right", true)
+        this.personaje.cuerpo.setVelocityX(160)
+        this.personaje.cuerpo.anims.play("right", true)
         this.reproducirPaso()
       }
       else{
-        this.personaje.setVelocityX(0)
-        this.personaje.anims.play("turn", true)
+        this.personaje.cuerpo.setVelocityX(0)
+        this.personaje.cuerpo.anims.play("turn", true)
       }
-      if (this.cursors.up.isDown && this.personaje.body.touching.down){
-        this.personaje.setVelocityY(-370)
+      if (this.cursors.up.isDown && this.personaje.cuerpo.body.touching.down){
+        this.personaje.cuerpo.setVelocityY(-370)
       }
     }
     this.tiempo.setText('Tiempo: ' + Math.round(((Date.now() - this.now) / 1000) * 100) / 100 + 's')
