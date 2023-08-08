@@ -1,6 +1,7 @@
 import Phaser from "phaser"
 import Preload from "./preload/Preload"
 import AfterPreload from "./afterPreload/AfterPreload.js"
+import Ranking from "./ranking/Ranking"
 import Game from "./game/Game"
 
 const config = {
@@ -11,6 +12,7 @@ const config = {
   scene: [
     Preload,
     AfterPreload,
+    Ranking,
     Game
   ],
   scale: {

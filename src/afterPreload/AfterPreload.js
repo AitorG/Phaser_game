@@ -5,8 +5,15 @@ export default class AfterPreload extends Phaser.Scene {
         this.afterText = ""
     }
     create() {
+
+        localStorage.setItem("name", "Iñigo")
+        localStorage.setItem("points", "52")
+        localStorage.setItem("time", "58")
+        localStorage.setItem("dificulty", "fácil")
+        localStorage.setItem("players", "2")
+
         let botonEmpezar = this.add.image(400, 300, "afterPreload").setDisplaySize(800, 600)
-        this.afterText = this.add.text(270, 340, "PULSA PARA EMPEZAR", {
+        this.afterText = this.add.text(270, 400, "PULSA PARA EMPEZAR", {
             fontFamily: "Comic",
             fontSize: "26px",
             color: "#0078FF",
@@ -20,7 +27,7 @@ export default class AfterPreload extends Phaser.Scene {
             duration: 300, // duración del tween
             repeat: -1 // el numero de veces que se ejecuta, -1 para infinitas
         })
-        let rectangulo = this.add.rectangle(415, 360, 370, 50).setStrokeStyle(1, 0x000000, 0.65)
+        let rectangulo = this.add.rectangle(415, 420, 370, 50).setStrokeStyle(1, 0x000000, 0.65)
         rectangulo.setInteractive()
         rectangulo.on('pointerdown', () => {
             
@@ -38,7 +45,7 @@ export default class AfterPreload extends Phaser.Scene {
         let rectangulo1 = this.add.rectangle(415, 300, 370, 50).setStrokeStyle(1, 0x000000, 0.65)
         rectangulo1.setInteractive()
         rectangulo1.on('pointerdown', () => {
-
+            this.scene.start('Ranking')
         })
         this.afterText = this.add.text(250, 220, "SONIDO", {
             fontFamily: "Comic",
@@ -95,6 +102,51 @@ export default class AfterPreload extends Phaser.Scene {
             stroke: "#000000",
             strokeThickness: 3
         })
+
+        let rectangulo7 = this.add.rectangle(555, 360, 80, 30).setStrokeStyle(1, 0x000000, 0.65)
+        rectangulo7.setInteractive()
+        rectangulo7.on('pointerdown', () => {
+            console.log("ponterdown")
+            rectangulo7.setFillStyle(0xDC003F, 0.65)
+            rectangulo8.setFillStyle(0x000000, 0)
+            //config.isHardMode = true
+        })
+        this.afterText = this.add.text(533, 348, "DOS", {
+            fontFamily: "Comic",
+            fontSize: "16px",
+            color: "#0078FF",
+            stroke: "#000000",
+            strokeThickness: 3
+        })
+        this.afterText = this.add.text(245, 340, "PERSONAJES", {
+            fontFamily: "Comic",
+            fontSize: "26px",
+            color: "#0078FF",
+            stroke: "#000000",
+            strokeThickness: 3
+        })
+        let rectangulo9 = this.add.rectangle(415, 360, 370, 50).setStrokeStyle(1, 0x000000, 0.65)
+        rectangulo9.setInteractive()
+        rectangulo9.on('pointerdown', () => {
+
+        })
+        let rectangulo8 = this.add.rectangle(470, 360, 80, 30).setStrokeStyle(1, 0x000000, 0.65)
+        rectangulo8.setInteractive()
+        rectangulo8.setFillStyle(0x00DC3F, 0.65)
+        rectangulo8.on('pointerdown', () => {
+            rectangulo8.setFillStyle(0x00DC3F, 0.65)
+            rectangulo7.setFillStyle(0x000000, 0)
+            //config.isHardMode = false
+        })
+        this.afterText = this.add.text(455, 348, "UNO", {
+            fontFamily: "Comic",
+            fontSize: "16px",
+            color: "#0078FF",
+            stroke: "#000000",
+            strokeThickness: 3
+        })
+
+
         this.afterText = this.add.text(250, 100, "NOMBRE:", {
             fontFamily: "Comic",
             fontSize: "26px",

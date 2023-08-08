@@ -1,9 +1,9 @@
 /** 
  * ToDo: DEBERES 
- * Agregar al menú la opción de elegir entre uno o dos personajes, que sea como el FACIL / DIFICIL
- * Hacer que al pulsar el en ranking me lleve a otra escena que tenga otro fondo distinto y ponga RANKING, donde agregaremos la gente cuando la tengamos.
- * En la nueva escena de Ranking, agregar textos como "cabeceras" de una tabla, por ejemplo:
- * POSICIÓN       NOMBRE        PUNTOS        DIFICULTAD        JUGADORES
+ * Lo que voy a investigar NO ES DE PHASER, ES DE JS EN GENERAL
+ * Investigar lo que es el localStorage; como se usa, como guardar objetos y como sacarlos.
+ * Cuando sepa lo que es, en el juego, cuando un jugador gana; guardar en el localStorage la info del jugador que luego pinto en el Ranking
+ * En el ranking leer el localStorage y pintar esa info :D
  */
 import Personaje from "../personaje/Personaje.js"
 import config from "../config"

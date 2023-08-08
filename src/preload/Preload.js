@@ -58,6 +58,7 @@ export default class Preload extends Phaser.Scene {
     this.load.audio("paso1", "assets/23.wav")
     this.load.audio("paso2", "assets/24.wav")
     this.load.spritesheet('Anim_Explosion', 'assets/explosion.png', {frameWidth: 128, frameHeight: 128})
+    this.load.image("fondoRanking", "assets/fondoRanking.png")
 
     this.load.addFile(
       new WebFontFile(this.load, [
