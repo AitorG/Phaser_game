@@ -60,6 +60,10 @@ export default class Preload extends Phaser.Scene {
     this.load.spritesheet('Anim_Explosion', 'assets/explosion.png', {frameWidth: 128, frameHeight: 128})
     this.load.image("fondoRanking", "assets/fondoRanking.png")
 
+     if (!localStorage.getItem("jugadores")){
+      localStorage.setItem("jugadores", JSON.stringify([]))
+    }
+
     this.load.addFile(
       new WebFontFile(this.load, [
         'PermanentMarker',

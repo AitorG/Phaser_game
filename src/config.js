@@ -1,5 +1,5 @@
 export default {
     isHardMode: false,
     brightnessLevel: 1,
-    personajes: 2,
+    personajes: 1,
 }

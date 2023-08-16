@@ -5,12 +5,23 @@ export default class AfterPreload extends Phaser.Scene {
         this.afterText = ""
     }
     create() {
+        const personajes = localStorage.getItem('personajes')
+        if (!personajes) {
+            localStorage.setItem('personajes', JSON.stringify([]))
+        }
 
         localStorage.setItem("name", "Iñigo")
         localStorage.setItem("points", "52")
         localStorage.setItem("time", "58")
         localStorage.setItem("dificulty", "fácil")
         localStorage.setItem("players", "2")
+        const jugador = {
+            name: "Iñigo",
+            points: "52",
+            time: "58",
+            dificulty: "fácil",
+            players: "2",
+        }
 
         let botonEmpezar = this.add.image(400, 300, "afterPreload").setDisplaySize(800, 600)
         this.afterText = this.add.text(270, 400, "PULSA PARA EMPEZAR", {
@@ -90,7 +101,6 @@ export default class AfterPreload extends Phaser.Scene {
         let rectangulo6 = this.add.rectangle(555, 180, 80, 30).setStrokeStyle(1, 0x000000, 0.65)
         rectangulo6.setInteractive()
         rectangulo6.on('pointerdown', () => {
-            console.log("ponterdown")
             rectangulo6.setFillStyle(0xDC003F, 0.65)
             rectangulo5.setFillStyle(0x000000, 0)
             config.isHardMode = true
@@ -106,10 +116,10 @@ export default class AfterPreload extends Phaser.Scene {
         let rectangulo7 = this.add.rectangle(555, 360, 80, 30).setStrokeStyle(1, 0x000000, 0.65)
         rectangulo7.setInteractive()
         rectangulo7.on('pointerdown', () => {
-            console.log("ponterdown")
             rectangulo7.setFillStyle(0xDC003F, 0.65)
             rectangulo8.setFillStyle(0x000000, 0)
-            //config.isHardMode = true
+            console.log('rectangulo7')
+            config.personajes = 2
         })
         this.afterText = this.add.text(533, 348, "DOS", {
             fontFamily: "Comic",
@@ -126,17 +136,14 @@ export default class AfterPreload extends Phaser.Scene {
             strokeThickness: 3
         })
         let rectangulo9 = this.add.rectangle(415, 360, 370, 50).setStrokeStyle(1, 0x000000, 0.65)
-        rectangulo9.setInteractive()
-        rectangulo9.on('pointerdown', () => {
-
-        })
         let rectangulo8 = this.add.rectangle(470, 360, 80, 30).setStrokeStyle(1, 0x000000, 0.65)
         rectangulo8.setInteractive()
         rectangulo8.setFillStyle(0x00DC3F, 0.65)
         rectangulo8.on('pointerdown', () => {
             rectangulo8.setFillStyle(0x00DC3F, 0.65)
             rectangulo7.setFillStyle(0x000000, 0)
-            //config.isHardMode = false
+            console.log('rectangulo8')
+            config.personajes = 1
         })
         this.afterText = this.add.text(455, 348, "UNO", {
             fontFamily: "Comic",

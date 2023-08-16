@@ -55,13 +55,16 @@ export default class Ranking extends Phaser.Scene {
       strokeThickness: 4 
     })
 
-    this.agregarJugador(1, "mariano", 47, "dificil", 86, 2)
-    this.agregarJugador(1, "mariano", 47, "dificil", 86, 2)
-    this.agregarJugador(1, (localStorage.getItem("name")), (localStorage.getItem("points")), (localStorage.getItem("dificulty")), (localStorage.getItem("time")), (localStorage.getItem("players")))
-
+    const arrayJugadoresRanking = JSON.parse(localStorage.getItem("jugadores"))
+    console.log(arrayJugadoresRanking)
+    arrayJugadoresRanking.sort((a, b) => a.points - b.points)
+    for ( let cuenta = 1; cuenta <= arrayJugadoresRanking.length; cuenta++ ) {
+      const jugador = arrayJugadoresRanking[cuenta - 1]
+      this.agregarJugador(cuenta, jugador.name, jugador.points, jugador.time, jugador.dificulty, jugador.players)
+    }
   }
 // FIN DEL CREATE
-  agregarJugador(posicion, nombre, puntos, dificultad, tiempo, jugadores) {
+  agregarJugador(posicion, name, points, time, dificulty, jugadores) {
     this.add.text(20, 100 + (50 * this.jugadores), posicion, {
       fontFamily: "Comic",
       fontSize: "17px",
@@ -69,28 +72,28 @@ export default class Ranking extends Phaser.Scene {
       stroke: '#000000',
       strokeThickness: 3
     })
-    this.add.text(150, 100 + (50 * this.jugadores), nombre, {
+    this.add.text(150, 100 + (50 * this.jugadores), name, {
       fontFamily: "Comic",
       fontSize: "17px",
       color: "#FFFFFF",
       stroke: '#000000',
       strokeThickness: 3
     })
-    this.add.text(270, 100 + (50 * this.jugadores), puntos, {
+    this.add.text(270, 100 + (50 * this.jugadores), points, {
       fontFamily: "Comic",
       fontSize: "17px",
       color: "#FFFFFF",
       stroke: '#000000',
       strokeThickness: 3
     })
-    this.add.text(390, 100 + (50 * this.jugadores), tiempo, {
+    this.add.text(390, 100 + (50 * this.jugadores), time, {
       fontFamily: "Comic",
       fontSize: "17px",
       color: "#FFFFFF",
       stroke: '#000000',
       strokeThickness: 3
     })
-    this.add.text(510, 100 + (50 * this.jugadores), dificultad, {
+    this.add.text(510, 100 + (50 * this.jugadores), dificulty, {
       fontFamily: "Comic",
       fontSize: "17px",
       color: "#FFFFFF",
