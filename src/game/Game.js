@@ -1,9 +1,6 @@
 /** 
- * ToDo: DEBERES 
- * Lo que voy a investigar NO ES DE PHASER, ES DE JS EN GENERAL
- * Investigar lo que es el localStorage; como se usa, como guardar objetos y como sacarlos.
- * Cuando sepa lo que es, en el juego, cuando un jugador gana; guardar en el localStorage la info del jugador que luego pinto en el Ranking
- * En el ranking leer el localStorage y pintar esa info :D
+ * Que lo del ranking funcione
+ * Agregar el jugador al ranking cuando pierdes y cuando ganas en una misma función
  */
 import Personaje from "../personaje/Personaje.js"
 import config from "../config"
@@ -94,9 +91,9 @@ export default class Game extends Phaser.Scene {
       strokeThickness: 4
     })
 
-    this.explosion = this.sound.add ("Explosion", {loop: false, volume: 0.25})
-    this.sonidoEstrella = this.sound.add ("sonido_Estrella", {loop: false, volume: 0.2})
-    this.musica_fondo = this.sound.add ("musica_fondo", {loop: true, volume: 0.04})
+    this.explosion = this.sound.add ("Explosion", {loop: false, volume: 0.1})
+    this.sonidoEstrella = this.sound.add ("sonido_Estrella", {loop: false, volume: 0.08})
+    this.musica_fondo = this.sound.add ("musica_fondo", {loop: true, volume: 0.05})
     this.musica_fondo.play()
     this.paso1 = this.sound.add ("paso1", {loop: false, volume: 0.2})
     this.paso2 = this.sound.add ("paso2", {loop: false, volume: 0.2})
@@ -250,14 +247,24 @@ export default class Game extends Phaser.Scene {
       this.counter = this.counter +0.125
     }
 }
-
+// tiempo - ((estrellas : jugadores) x dificultad)
   gameOver() {
     this.gameOverImage = this.add.image(400, 300, "Game_Over")
     this.cameras.main.setAlpha(1)
     this.scene.pause("Game")
     setTimeout(()=>{
+      const jugadoresActuales = JSON.parse(localStorage.getItem("jugadores"))
+      const tiempo = (Math.round(((Date.now() - this.now) / 1000) * 100) / 100)
+      jugadoresActuales.push({
+        points: tiempo - ((this.puntosEstrella / config.personajes) * (config.isHardMode ? 2 : 1)),
+        time: tiempo,
+        players: config.personajes,
+        dificulty: config.isHardMode ? 'difícil' : 'fácil',
+        name: 'prueba'
+      })
+      localStorage.setItem("jugadores", JSON.stringify(jugadoresActuales))
       location.reload()
-    }, 3000)
+    }, 2200)
   }
 
   youWin() {
@@ -292,8 +299,18 @@ export default class Game extends Phaser.Scene {
     }) 
     this.scene.pause("Game")
     setTimeout(()=>{
+      const jugadoresActuales = JSON.parse(localStorage.getItem("jugadores"))
+      const tiempo = (Math.round(((Date.now() - this.now) / 1000) * 100) / 100)
+      jugadoresActuales.push({
+        points: tiempo - ((this.puntosEstrella / config.personajes) * (config.isHardMode ? 2 : 1)),
+        time: tiempo,
+        players: config.personajes,
+        dificulty: config.isHardMode ? 'difícil' : 'fácil',
+        name: 'prueba'
+      })
+      localStorage.setItem("jugadores", JSON.stringify(jugadoresActuales))
       location.reload()
-    }, 6000)
+    }, 2200)
   }
 
 
@@ -326,7 +343,6 @@ export default class Game extends Phaser.Scene {
   update(time, delta) {
     if (config.isHardMode == true){
       this.rect.setAlpha(0+ (Math.round(((Date.now() - this.now) / 1000) * 100) / 1000) -this.counter)
-      console.log((Math.round(((Date.now() - this.now) / 1000) * 100) / 1000))
     }
 
     if (config.personajes == 2) {
