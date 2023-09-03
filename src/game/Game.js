@@ -248,21 +248,25 @@ export default class Game extends Phaser.Scene {
     }
 }
 // tiempo - ((estrellas : jugadores) x dificultad)
+  finishGame(){
+    const jugadoresActuales = JSON.parse(localStorage.getItem("jugadores"))
+    const tiempo = (Math.round(((Date.now() - this.now) / 1000) * 100) / 100)
+    jugadoresActuales.push({
+      points: Phaser.Math.RoundTo((tiempo - ((this.puntosEstrella / config.personajes) * (config.isHardMode ? 2 : 1))), -1),
+      time: tiempo,
+      players: config.personajes,
+      dificulty: config.isHardMode ? 'difícil' : 'fácil',
+      name: 'prueba'
+    })
+    localStorage.setItem("jugadores", JSON.stringify(jugadoresActuales))
+  }
+
   gameOver() {
     this.gameOverImage = this.add.image(400, 300, "Game_Over")
     this.cameras.main.setAlpha(1)
     this.scene.pause("Game")
     setTimeout(()=>{
-      const jugadoresActuales = JSON.parse(localStorage.getItem("jugadores"))
-      const tiempo = (Math.round(((Date.now() - this.now) / 1000) * 100) / 100)
-      jugadoresActuales.push({
-        points: tiempo - ((this.puntosEstrella / config.personajes) * (config.isHardMode ? 2 : 1)),
-        time: tiempo,
-        players: config.personajes,
-        dificulty: config.isHardMode ? 'difícil' : 'fácil',
-        name: 'prueba'
-      })
-      localStorage.setItem("jugadores", JSON.stringify(jugadoresActuales))
+      this.finishGame()
       location.reload()
     }, 2200)
   }
@@ -299,16 +303,7 @@ export default class Game extends Phaser.Scene {
     }) 
     this.scene.pause("Game")
     setTimeout(()=>{
-      const jugadoresActuales = JSON.parse(localStorage.getItem("jugadores"))
-      const tiempo = (Math.round(((Date.now() - this.now) / 1000) * 100) / 100)
-      jugadoresActuales.push({
-        points: tiempo - ((this.puntosEstrella / config.personajes) * (config.isHardMode ? 2 : 1)),
-        time: tiempo,
-        players: config.personajes,
-        dificulty: config.isHardMode ? 'difícil' : 'fácil',
-        name: 'prueba'
-      })
-      localStorage.setItem("jugadores", JSON.stringify(jugadoresActuales))
+      this.finishGame()
       location.reload()
     }, 2200)
   }
