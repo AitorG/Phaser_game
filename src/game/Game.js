@@ -1,6 +1,5 @@
 /** 
- * Que lo del ranking funcione
- * Agregar el jugador al ranking cuando pierdes y cuando ganas en una misma función
+ * Que lo del ranking funcione, un calculo justo de puntos
  */
 import Personaje from "../personaje/Personaje.js"
 import config from "../config"
