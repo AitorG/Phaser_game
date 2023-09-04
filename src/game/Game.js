@@ -22,6 +22,7 @@ export default class Game extends Phaser.Scene {
     this.paso1
     this.paso2
     this.pasoActual = 1
+    this.name = ''
   }
 
 
@@ -158,6 +159,9 @@ export default class Game extends Phaser.Scene {
       })
     }
 
+    const element = document.getElementById('name')
+    element.style.display = 'none'
+    this.name = element.value
   }
 // FIN DEL CREATE
 
@@ -256,7 +260,7 @@ export default class Game extends Phaser.Scene {
       time: tiempo,
       players: config.personajes,
       dificulty: config.isHardMode ? 'difícil' : 'fácil',
-      name: 'prueba'
+      name: this.name
     })
     localStorage.setItem("jugadores", JSON.stringify(jugadoresActuales))
   }

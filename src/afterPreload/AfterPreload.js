@@ -166,5 +166,31 @@ export default class AfterPreload extends Phaser.Scene {
         rectangulo4.on('pointerdown', () => {
 
         })
+        this.resizeNameInput()
+        window.addEventListener('resize', () => {
+            this.resizeNameInput()
+        })
+        const element = document.getElementById('name')
+        element.style.display = 'inherit'
+    }
+
+    resizeNameInput() {
+        const element = document.getElementById('name')
+        const canvas = this.game.canvas
+        const width = parseFloat(canvas.style.width)
+        const height = parseFloat(canvas.style.height)
+        const marginLeft = parseInt(canvas.style.marginLeft ?? 0)
+        const marginTop = parseInt(canvas.style.marginTop ?? 0)
+        const x = 400, y = 106
+        const totalWidth = width
+        const totalHeight = height
+        const top = ((y * totalHeight) / 600) + marginTop
+        const left = ((x * totalWidth) / 800) + marginLeft
+        const scale = width / 800
+        console.log('resize', totalWidth, totalHeight, scale)
+
+        element.style.left = left + 'px'
+        element.style.top = top + 'px'
+        element.style.transform = `scale(${scale})`
     }
 }

@@ -57,11 +57,13 @@ export default class Ranking extends Phaser.Scene {
 
     const arrayJugadoresRanking = JSON.parse(localStorage.getItem("jugadores"))
     console.log(arrayJugadoresRanking)
-    arrayJugadoresRanking.sort((a, b) => a.points - b.points)
+    arrayJugadoresRanking.sort((a, b) => b.points - a.points)
     for ( let cuenta = 1; cuenta <= arrayJugadoresRanking.length; cuenta++ ) {
       const jugador = arrayJugadoresRanking[cuenta - 1]
       this.agregarJugador(cuenta, jugador.name, jugador.points, jugador.time, jugador.dificulty, jugador.players)
     }
+    const element = document.getElementById('name')
+    element.style.display = 'none'
   }
 // FIN DEL CREATE
   agregarJugador(posicion, name, points, time, dificulty, jugadores) {

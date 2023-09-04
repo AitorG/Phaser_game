@@ -13,6 +13,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Estrellitas</title>
     <style>
+      /* TODO ESTO ES CSS */
+      /* CSS -> Cascading style sheet */
       @font-face {
         font-family: PermanentMarker;
         src: url('assets/fonts/permanent_marker/PermanentMarker.ttf');
@@ -32,6 +34,22 @@
         padding: 0;
         background-color: black;
       }
+
+      #name {
+        display: none;
+        position: absolute;
+        z-index: 2;
+        border: none;
+        padding: 5px;
+        width: 125px;
+        height: 20px;
+        transform-origin: 0% 00%;
+      }
+      canvas {
+        position: fixed;
+        z-index: 1;
+      }
+
     </style>
     <script>
       if ('serviceWorker' in navigator) {
@@ -48,5 +66,6 @@
     <meta charset="utf-8">
   </head>
   <body>
+    <input type="text" id="name" autocomplete="off">
   </body>
 </html>
