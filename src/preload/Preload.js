@@ -49,6 +49,7 @@ export default class Preload extends Phaser.Scene {
       frameHeight: 48
     })
     this.load.image("Joystick", "assets/joystick.png")
+    this.load.image("backButton", "assets/rankingBack.png")
     this.load.image("Thumb", "assets/thumb.png")
     this.load.image("Game_Over", "assets/game_over.jpg")
     this.load.image("You_Win", "assets/you_win.jpg")

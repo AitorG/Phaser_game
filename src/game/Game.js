@@ -1,5 +1,6 @@
 /** 
  * Que lo del ranking funcione, un calculo justo de puntos
+ * Y hacer un botón para volver al menu en el Ranking
  */
 import Personaje from "../personaje/Personaje.js"
 import config from "../config"
@@ -255,7 +256,7 @@ export default class Game extends Phaser.Scene {
     const jugadoresActuales = JSON.parse(localStorage.getItem("jugadores"))
     const tiempo = (Math.round(((Date.now() - this.now) / 1000) * 100) / 100)
     jugadoresActuales.push({
-      points: Phaser.Math.RoundTo((tiempo - ((this.puntosEstrella / config.personajes) * (config.isHardMode ? 2 : 1))), -1),
+      points: Phaser.Math.RoundTo((((this.puntosEstrella - (tiempo / 5)) / config.personajes) * (config.isHardMode ? 1.5 : 1)), -1),
       time: tiempo,
       players: config.personajes,
       dificulty: config.isHardMode ? 'difícil' : 'fácil',

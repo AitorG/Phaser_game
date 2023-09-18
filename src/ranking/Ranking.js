@@ -55,6 +55,12 @@ export default class Ranking extends Phaser.Scene {
       strokeThickness: 4 
     })
 
+    let atras = this.add.image(40, 580, "backButton")
+    atras.setInteractive()
+    atras.on('pointerdown', () => {
+            location.reload()
+  })
+
     const arrayJugadoresRanking = JSON.parse(localStorage.getItem("jugadores"))
     console.log(arrayJugadoresRanking)
     arrayJugadoresRanking.sort((a, b) => b.points - a.points)
